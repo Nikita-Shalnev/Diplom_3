@@ -19,6 +19,7 @@ public class BaseTest {
     @Before
     public void initTest() {
         driver = BrowserSelector.createDriver();
+        // Implicit wait - работает для всех поисков элементов
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
 

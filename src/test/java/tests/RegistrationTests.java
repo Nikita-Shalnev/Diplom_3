@@ -63,26 +63,17 @@ public class RegistrationTests extends BaseTest {
         registrationPage.typeName(invalidUser.getName());
         registrationPage.typeEmail(invalidUser.getEmail());
         registrationPage.typePassword(invalidUser.getPassword());
-
-        System.out.println("Нажимаем кнопку регистрации с паролем: " + invalidUser.getPassword());
         registrationPage.clickRegisterBtn();
 
-        // Ждем появления ошибки
-        System.out.println("Ожидаем появление ошибки...");
         registrationPage.waitForErrorMessage();
 
-        System.out.println("Проверяем видимость ошибки");
         assertTrue("Сообщение об ошибке не отображается",
                 registrationPage.isPasswordErrorVisible());
 
-        String errorText = registrationPage.getPasswordErrorText();
-        System.out.println("Текст ошибки: " + errorText);
-
         assertEquals("Текст ошибки не совпадает",
                 ErrorMessages.INVALID_PASSWORD,
-                errorText);
+                registrationPage.getPasswordErrorText());
 
-        System.out.println("Проверяем URL: " + driver.getCurrentUrl());
         assertTrue("Должны остаться на странице регистрации",
                 driver.getCurrentUrl().contains("/register"));
     }

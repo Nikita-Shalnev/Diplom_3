@@ -18,8 +18,6 @@ public class RegistrationPage {
     private final By passwordField = By.cssSelector("input[type='password']");
     private final By registerBtn = By.xpath(".//button[text()='Зарегистрироваться']");
     private final By loginLink = By.cssSelector("a[href='/login']");
-
-    // Упрощаем локатор ошибки - ищем по тексту
     private final By errorMessage = By.xpath(".//p[contains(text(),'Некорректный пароль')]");
     private final By registerHeader = By.xpath(".//h2[text()='Регистрация']");
 
@@ -82,19 +80,8 @@ public class RegistrationPage {
 
     @Step("Ожидание появления сообщения об ошибке")
     public void waitForErrorMessage() {
-        try {
-            Thread.sleep(2000); // Ждем появления ошибки
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
-        try {
-            wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
-        } catch (Exception e) {
-            // Если не нашли по тексту, пробуем найти по классу
-            By fallbackLocator = By.xpath(".//div[contains(@class, 'input__error')]");
-            wait.until(ExpectedConditions.visibilityOfElementLocated(fallbackLocator));
-        }
+        // Явное ожидание - ждем появления элемента с ошибкой
+        wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
     }
 
     @Step("Ожидание загрузки страницы регистрации")
