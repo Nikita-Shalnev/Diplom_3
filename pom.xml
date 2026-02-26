@@ -10,10 +10,6 @@
     <artifactId>Diplom_3</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <!-- ===================================================== -->
-    <!-- PROPERTIES -->
-    <!-- ===================================================== -->
-
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -27,17 +23,9 @@
         <allure.maven.version>2.12.0</allure.maven.version>
         <aspectj.version>1.9.21</aspectj.version>
         <surefire.version>3.2.5</surefire.version>
-
-        <lombok.version>1.18.34</lombok.version>
     </properties>
 
-    <!-- ===================================================== -->
-    <!-- DEPENDENCIES -->
-    <!-- ===================================================== -->
-
     <dependencies>
-
-        <!-- JUnit 4 -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -45,14 +33,12 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
 
-        <!-- WebDriverManager -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
@@ -60,7 +46,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Rest Assured -->
         <dependency>
             <groupId>io.rest-assured</groupId>
             <artifactId>rest-assured</artifactId>
@@ -68,15 +53,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- Allure JUnit4 -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-junit4</artifactId>
@@ -84,7 +60,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Allure RestAssured integration -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-rest-assured</artifactId>
@@ -92,7 +67,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- AspectJ (для @Step) -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
@@ -100,23 +74,15 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Allure core annotations (Step, Attachment, etc.) for main + test -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-java-commons</artifactId>
             <version>${allure.version}</version>
         </dependency>
-
     </dependencies>
-
-    <!-- ===================================================== -->
-    <!-- BUILD -->
-    <!-- ===================================================== -->
 
     <build>
         <plugins>
-
-            <!-- Maven Compiler (Lombok processor) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -124,47 +90,29 @@
                 <configuration>
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
-
-                    <annotationProcessorPaths>
-                        <path>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                            <version>${lombok.version}</version>
-                        </path>
-                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
 
-            <!-- Surefire + Allure + AspectJ -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire.version}</version>
-
                 <configuration>
-
-                    <!-- Allure listener -->
                     <properties>
                         <property>
                             <name>listener</name>
                             <value>io.qameta.allure.junit4.AllureJunit4</value>
                         </property>
                     </properties>
-
-                    <!-- Where Allure writes results -->
                     <systemPropertyVariables>
                         <allure.results.directory>
                             ${project.build.directory}/allure-results
                         </allure.results.directory>
                     </systemPropertyVariables>
-
-                    <!-- AspectJ agent -->
                     <argLine>
                         -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar
                     </argLine>
-
                 </configuration>
-
                 <dependencies>
                     <dependency>
                         <groupId>org.aspectj</groupId>
@@ -174,7 +122,6 @@
                 </dependencies>
             </plugin>
 
-            <!-- Allure Maven plugin -->
             <plugin>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-maven</artifactId>
@@ -183,8 +130,6 @@
                     <reportVersion>${allure.version}</reportVersion>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
-
 </project>

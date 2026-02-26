@@ -8,7 +8,6 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
-import static org.apache.http.HttpStatus.*;
 
 public class UserApiClient {
     private static final String REGISTER_ENDPOINT = "/api/auth/register";
@@ -16,45 +15,32 @@ public class UserApiClient {
     private static final String USER_ENDPOINT = "/api/auth/user";
 
     @Step("Создать пользователя через API")
-    public static void createUser(UserData user) {
+    public static Response createUser(UserData user) {
         RestAssured.baseURI = AppConfig.BASE_URL;
-
-        given()
+        return given()
                 .contentType(ContentType.JSON)
                 .body(user)
                 .when()
-                .post(REGISTER_ENDPOINT)
-                .then()
-                .statusCode(SC_OK);
+                .post(REGISTER_ENDPOINT);
     }
 
     @Step("Авторизоваться и получить токен")
-    public static String getAuthToken(UserData user) {
+    public static Response loginUser(UserData user) {
         RestAssured.baseURI = AppConfig.BASE_URL;
-
         UserData credentials = new UserData(user.getEmail(), user.getPassword(), null);
-
-        Response response = given()
+        return given()
                 .contentType(ContentType.JSON)
                 .body(credentials)
                 .when()
                 .post(LOGIN_ENDPOINT);
-
-        response.then().statusCode(SC_OK);
-        return response.path("accessToken");
     }
 
     @Step("Удалить пользователя")
-    public static void deleteUser(String token) {
-        if (token == null || token.isEmpty()) return;
-
+    public static Response deleteUser(String token) {
         RestAssured.baseURI = AppConfig.BASE_URL;
-
-        given()
+        return given()
                 .header("Authorization", token)
                 .when()
-                .delete(USER_ENDPOINT)
-                .then()
-                .statusCode(SC_ACCEPTED);
+                .delete(USER_ENDPOINT);
     }
 }

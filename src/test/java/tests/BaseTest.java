@@ -28,6 +28,7 @@ public class BaseTest {
         recoveryPage = new PasswordRecoveryPage(driver);
 
         driver.get(AppConfig.BASE_URL);
+        mainPage.waitForPageLoad();
     }
 
     @After

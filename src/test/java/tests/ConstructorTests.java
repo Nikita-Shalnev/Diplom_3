@@ -10,26 +10,34 @@ public class ConstructorTests extends BaseTest {
 
     @Test
     @DisplayName("Переход в раздел «Булки»")
-    @Description("Проверка, что при клике на вкладку «Булки» открывается соответствующий раздел")
+    @Description("Проверка, что при клике на вкладку «Булки» она становится активной")
     public void bunsSectionOpens() {
-        mainPage.navigateToSauces();  // сначала уходим с булок
+        mainPage.navigateToFillings();
         mainPage.navigateToBuns();
-        assertTrue(mainPage.isBunsSectionVisible());
+        boolean isActive = mainPage.isBunsTabActive();
+        System.out.println("Buns tab active after navigation: " + isActive);
+        assertTrue("Вкладка 'Булки' не стала активной после клика", isActive);
     }
 
     @Test
     @DisplayName("Переход в раздел «Соусы»")
-    @Description("Проверка, что при клике на вкладку «Соусы» открывается соответствующий раздел")
+    @Description("Проверка, что при клике на вкладку «Соусы» она становится активной")
     public void saucesSectionOpens() {
+        mainPage.navigateToBuns();
         mainPage.navigateToSauces();
-        assertTrue(mainPage.isSaucesSectionVisible());
+        boolean isActive = mainPage.isSaucesTabActive();
+        System.out.println("Sauces tab active after navigation: " + isActive);
+        assertTrue("Вкладка 'Соусы' не стала активной после клика", isActive);
     }
 
     @Test
     @DisplayName("Переход в раздел «Начинки»")
-    @Description("Проверка, что при клике на вкладку «Начинки» открывается соответствующий раздел")
+    @Description("Проверка, что при клике на вкладку «Начинки» она становится активной")
     public void fillingsSectionOpens() {
+        mainPage.navigateToBuns();
         mainPage.navigateToFillings();
-        assertTrue(mainPage.isFillingsSectionVisible());
+        boolean isActive = mainPage.isFillingsTabActive();
+        System.out.println("Fillings tab active after navigation: " + isActive);
+        assertTrue("Вкладка 'Начинки' не стала активной после клика", isActive);
     }
 }
